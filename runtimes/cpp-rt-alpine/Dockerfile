@@ -6,7 +6,9 @@
 FROM alpine:3.8
 LABEL maintainer "Braden Hitchcock <developer.hitchcock@gmail.com>"
 
-RUN apk add --update \
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
+    && apk update \
+    && apk add --no-cache --update \
         libstdc++ \
         libc++ \
     && rm -rf /var/apk/cache/*
