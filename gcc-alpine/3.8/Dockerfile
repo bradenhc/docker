@@ -7,3 +7,5 @@ RUN apk add --update \
         build-base \
     && rm -rf /var/cache/apk/*
 
+WORKDIR /src
+
