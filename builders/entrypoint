@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Colors
+r='\033[0;31m'
+n='\033[0m'
+
+# Language and target directories
+language="$LANG"
+source='/src'
+output='/out'
+
+# Some logging helper functions
+info() {
+    echo "[INFO] " $@
+}
+
+error() {
+    >&2 echo -e "[${r}ERROR${n}] " $@
+}
+
+# Default to Maven if no language was specified
+if [ -z "$language" ]; then
+    info "No lanuage specified. Using Default of Java with Maven" 
+    language='java' 
+fi
+
+info "Source file language: $language"
+
+# The working directory is already set by the Dockerfile as /src
+case $language in
+    java)
+        mvn install
+        mv $HOME/.m2/repository $output
+        ;;
+    cpp)
+        make all clean
+        ;;
+    *)
+        error "Invalid language: $language"
+        exit 1
+esac
+
+exit 0
+
